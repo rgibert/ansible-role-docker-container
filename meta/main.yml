@@ -22,5 +22,6 @@ galaxy_info:
         - trusty
         - xenial
   galaxy_tags:
-    - docker_container
+    - dockercontainer
+    - container
 dependencies: []
