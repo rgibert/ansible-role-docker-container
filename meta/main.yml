@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  role_name: docker_container
+  author: Richard Gibert
+  company: Gibert.ca
+  description: Sets up and runs Docker containers
+  license: GPLv3
+  min_ansible_version: 1.2
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+        - 8
+    - name: Ubuntu
+      versions:
+        - artful
+        - bionic
+        - cosmic
+        - disco
+        - eoan
+        - trusty
+        - xenial
+  galaxy_tags:
+    - dockercontainer
+    - container
+dependencies: []

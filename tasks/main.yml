@@ -1,0 +1,54 @@
+---
+- block:
+
+    - name: install pip packages
+      pip:
+        name: docker-py
+        state: present
+
+    - name: setup dirs
+      file:
+        state: directory
+        path: "{{ item }}"
+        recurse: true
+        owner: "{{ docker_container_user_name }}"
+        group: "{{ docker_container_group_name }}"
+        mode: "u=rwX,g=rwX,o=rX"
+      with_items: "{{ docker_container_dirs }}"
+
+    - name: setup network
+      docker_network:
+        name: "{{ docker_container_network }}"
+        driver: bridge
+
+    - name: copy files
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: "{{ docker_container_user_name }}"
+        group: "{{ docker_container_group_name }}"
+      loop: "{{ docker_container_files }}"
+
+    - name: start container
+      docker_container:
+        name: "{{ docker_container_name }}"
+        image: "{{ docker_container_image }}"
+        state: started
+        pull: true
+        restart_policy: always
+        env:
+          PUID: "'{{ docker_container_user_name }}'"
+          PGID: "'{{ docker_container_group_name }}'"
+          TZ: "{{ docker_container_tz }}"
+        network_mode: bridge
+        networks:
+          - name: "{{ docker_container_network }}"
+        privileged: "{{ docker_container_privileged }}"
+        command: "{{ docker_container_commands }}"
+        ports: "{{ docker_container_ports }}"
+        volumes: "{{ docker_container_volumes }}"
+        user: "{{ docker_container_user_name }}:{{ docker_container_group_name }}"
+
+  tags:
+    - docker_container

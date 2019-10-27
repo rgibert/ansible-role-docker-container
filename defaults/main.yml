@@ -1,0 +1,8 @@
+---
+docker_container_commands: []
+docker_container_dirs: []
+docker_container_files: []
+docker_container_volumes: []
+docker_container_network: "{{ docker_container_name }}_default"
+docker_container_tz: "America/Toronto"
+docker_container_privileged: false
